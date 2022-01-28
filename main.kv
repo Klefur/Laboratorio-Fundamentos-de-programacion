@@ -1,0 +1,497 @@
+#:import Factory kivy.factory.Factory
+<WinManager>
+    Win1:
+    WinLogin:
+    Win2:
+    Win2_1:
+    Win3:
+    Win4:
+    Win5:
+    Win6:
+
+<Win1>
+    name: "win1"
+
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (0, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        pos_hint: {"center_x": .5 , "center_y": .9}
+        size_hint: .7, .2
+        text: "Bienvenida, ingrese sus datos para continuar:"
+
+
+    TextInput:
+        id: nombre
+        pos_hint: {"center_x": .5 , "center_y": .7}
+        size_hint: .7, .15
+        hint_text:"Introduce tu nombre"
+
+    TextInput:
+        id: rut
+        pos_hint: {"center_x": .5 , "center_y": .5}
+        size_hint: .7, .15
+        hint_text:"Introduce tu rut, sin puntos y con guión, ej: 11222333-4"
+    
+    Label:
+        id: val_reg
+        pos_hint: {"center_x": .5 , "center_y": .38}
+        size_hint: .7, .1
+        color: [.7, 0, .1, .8]
+        text: ''
+
+    RButton:
+        id: sgte
+        pos_hint: {"center_x": 0.5, "center_y": .28}
+        size_hint: .7, .1
+        text: "Aceptar"
+        on_release:
+            root.verificar()
+            root.manager.transition.direction = "left"
+
+    RButton:
+        pos_hint: {"center_x": 0.5, "center_y": .15}
+        size_hint: .7, .1
+        text: "Registrarme"
+        on_release:
+            app.root.current = "winlogin"
+            root.manager.transition.direction = "left"
+
+<WinLogin>
+    name: "winlogin"
+
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (0, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        pos_hint: {"center_x": .5 , "center_y": .9}
+        size_hint: .7, .2
+        text: "Ingrese sus datos para continuar:"
+
+
+    TextInput:
+        id: nombrer
+        pos_hint: {"center_x": .5 , "center_y": .75}
+        size_hint: .7, .11
+        hint_text:"Introduce tu nombre"
+
+    TextInput:
+        id: rutr
+        pos_hint: {"center_x": .5 , "center_y": .6}
+        size_hint: .7, .11
+        hint_text:"Introduce tu rut, sin puntos y con guión, ej: 11222333-4"
+
+    TextInput:
+        id: gmailr
+        pos_hint: {"center_x": .5 , "center_y": .45}
+        size_hint: .7, .11
+        hint_text:"Introduce tu correo"
+
+    RSpinner:
+        id: fonasa
+        background_color: [1, .2, 1, .3]
+        pos_hint: {"center_x": .5 , "center_y": .28}
+        size_hint: .7, .1
+        text: "¿Esta en fonasa?"
+        option_cls: Factory.get("SpinnerOp")
+        values: ("Si", "No")
+
+    RButton:
+        pos_hint: {"center_x": 0.65, "center_y": .15}
+        size_hint: .4, .1
+        text: "Aceptar"
+        on_release:
+            root.registrarse()
+            root.manager.transition.direction = "right"
+    RButton:
+        pos_hint: {"center_x": 0.29, "center_y": .15}
+        size_hint: .28, .1
+        text: 'Volver'
+        on_release:
+            app.root.current = 'win1'
+            root.manager.transition.direction = "right"
+
+
+<Win2>
+    name: "win2"
+
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (.25, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": .9}
+        size_hint: 1, .1
+        id: click_label
+        text: "Seleccione el lugar donde pedira la hora"
+
+    RSpinner:
+        pos_hint: {"center_x": 0.495, "center_y": .75}
+        size_hint: .9, .15
+        id: spinner1
+        text: "Sector"
+        option_cls: Factory.get("SpinnerOp")
+        values: root.lugares
+
+    RSpinner:
+        pos_hint: {"center_x": 0.495, "center_y": .55}
+        size_hint: .9, .15
+        id: spinner2
+        text: "Direcciones"
+        option_cls: Factory.get("SpinnerOp")
+        on_press:
+            root.cargar_direcciones()
+
+    RButton:
+        pos_hint: {"center_x": 0.27, "center_y": .1}
+        size_hint: .45, .1
+        text: "Atrás"
+        on_release:
+            app.root.current = "win1"
+            root.manager.transition.direction = "right"
+
+    RButton:
+        id: sgte2
+        pos_hint: {"center_x": 0.72, "center_y": .1}
+        size_hint: .45, .1
+        text: "Siguiente Ventana"
+        on_release:
+            root.habilitar()
+            root.manager.transition.direction = "left"
+
+
+<Win2_1>
+    name: "win2_1"
+
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (.25, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": .9}
+        size_hint: 1, .1
+        id: click_label
+        text: "Seleccione con quien y a que hora"
+    
+    RSpinner:
+        pos_hint: {"center_x": 0.495, "center_y": .75}
+        size_hint: .9, .15
+        id: spinner4
+        text: "Especialistas"
+        option_cls: Factory.get("SpinnerOp")
+        on_press:
+            root.cargar_especialistas()
+
+    RSpinner:
+        pos_hint: {"center_x": 0.495, "center_y": .55}
+        size_hint: .9, .15
+        id: spinner3
+        text: "Horas"
+        option_cls: Factory.get("SpinnerOp")
+        values: root.horas
+
+    Label:
+        size_hint: .9, .2
+        pos_hint: {"center_x": .5, "center_y": .3}
+        id: confirmacion
+        font_size: 40
+        text: ""
+        
+
+    RButton:
+        pos_hint: {"center_x": 0.27, "center_y": .1}
+        size_hint: .45, .1
+        text: "Atrás"
+        on_release:
+            app.root.current = "win2"
+            root.manager.transition.direction = "right"
+
+    RButton:
+        id: sgte2_1
+        pos_hint: {"center_x": 0.72, "center_y": .1}
+        size_hint: .45, .1
+        text: "Siguiente Ventana"
+        on_release:
+            root.verificar_hora()
+            root.manager.transition.direction = "left"
+
+<Win3>
+    name: "win3"
+
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (.25, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.95}
+        size_hint: .9, .1
+        text: "Espere mientras su hora esta lista"
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.85}
+        size_hint: .9, .1
+        text: "Acá tiene información para abarcar mejor su situación:"
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.8}
+        size_hint: .8, .1
+        text: "aca puede ver:"
+
+    Button:
+        pos_hint: {"center_x": 0.5, "center_y": 0.71}
+        background_color: [0, 0, 0, 0]
+        size_hint: .45, .1
+        halign: 'center'
+        text: "Preguntas frecuentes sobre la COVID-19,\n el embarazo, el parto y la lactancia materna"
+        on_release:
+            root.abrir_link1()
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.6}
+        size_hint: .8, .1
+        text: "aca puede ver:"
+
+    Button:
+        pos_hint: {"center_x": 0.5, "center_y": 0.51}
+        background_color: [0, 0, 0, 0]
+        size_hint: .8, .1
+        halign: 'center'
+        text: "¿Las mujeres embarazadas deberían \nrecibir la vacuna contra la COVID-19?"
+        on_release:
+            root.abrir_link2()
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.4}
+        size_hint: .8, .1
+        text: "aca puede ver:"
+
+    Button:
+        pos_hint: {"center_x": 0.5, "center_y": 0.31}
+        background_color: [0, 0, 0, 0]
+        size_hint: .8, .1
+        halign: 'center'
+        text: "Consejos para el embarazo \ndurante la pandemia de COVID-19"
+        on_release:
+            root.abrir_link3()
+
+    RButton:
+        pos_hint: {"center_x": 0.27, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Atrás"
+        on_release:
+            app.root.current = "win2"
+            root.manager.transition.direction = "right"
+
+    RButton:
+        id: sgte_v3
+        pos_hint: {"center_x": 0.72, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Siguiente Ventana"
+        disabled: True
+        on_release:
+            app.root.current = "win4"
+            root.cambiar_texto()
+            root.manager.transition.direction = "left"
+
+<Win4>
+    name: "win4"
+
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (.25, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        id: hora
+        pos_hint: {"center_x": 0.5, "center_y": 0.9}
+        size_hint: 1, .2
+        height: "60dp"
+        text: "Su hora esta lista en: "
+
+    Label:
+        id: lugar
+        pos_hint: {"center_x": 0.5, "center_y": 0.7}
+        halign: "center"
+        size_hint: 1, .1
+        text: "Cargando hora"
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.2}
+        size_hint: 1, .4
+        text:"Gracias por usar la aplicación"
+
+    RButton:
+        pos_hint: {"center_x": 0.27, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Atrás"
+        on_release:
+            app.root.current = "win3"
+            root.manager.transition.direction = "right"
+
+    RButton:
+        pos_hint: {"center_x": 0.72, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Listo"
+        on_release:
+            app.root.current = "win5"
+            root.ocupar_hora()
+            root.manager.transition.direction = "left"
+
+<Win5>
+    name: "win5"
+
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (.25, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.9}
+        size_hint: .9, .2
+        text: "Sección de comentarios"
+
+    TextInput:
+        id: write_r
+        pos_hint: {"center_x": 0.5, "center_y": 0.6}
+        size_hint: .9, .3
+        hint_text: "Deje aqui su comentario sobre su atención medica"
+
+    RButton:
+        pos_hint: {"center_x": 0.27, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Salir"
+        on_release:
+            root.opinion()
+            app.root.save_info()
+            exit()
+
+    RButton:
+        pos_hint: {"center_x": 0.72, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Ver reseñas"
+        on_release:
+            root.opinion()
+            app.root.current = "win6"
+            root.manager.transition.direction = "left"
+
+<Win6>
+    name: "win6"
+    on_enter: root.load_review()
+    spacing: 10
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: (.25, .75, 1, .5)
+            Rectangle:
+                pos: self.pos
+                size: self.size
+
+    Label:
+        pos_hint: {"center_x": 0.5, "center_y": 0.9}
+        size_hint: .9, .2
+        text: "Sección de comentarios"
+
+    TextInput:
+        id: view_r
+        pos_hint: {"center_x": 0.5, "center_y": 0.6}
+        size_hint: .9, .3
+        hint_text: "Ahora mismo no hay reseñas"
+        readonly: True
+
+    RButton:
+        pos_hint: {"center_x": 0.27, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Escribir reseña"
+        on_release:
+            root.manager.transition.direction = "right"
+            app.root.current = "win5"
+
+
+    RButton:
+        pos_hint: {"center_x": 0.72, "center_y": 0.1}
+        size_hint: .45, .1
+        text: "Salir"
+        on_release:
+            app.root.save_info()
+            exit()
+
+<RButton@Button>
+    background_color: [1, 1, 1, .3]
+    background_normal: ""
+    col: [1, 1, 1, 1]
+    color: self.col
+    font_size: 10
+    canvas.before:
+        Color:
+            rgba: self.col
+        Line:
+            rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1])
+            width: 1.2
+
+<RSpinner@Spinner>
+    background_color: [1, 1, 1, .3]
+    background_normal: ""
+    col: [1, 1, 1, 1]
+    color: self.col
+    canvas.before:
+        Color:
+            rgba: self.col
+        Line:
+            rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1])
+            width: 1.2
+
+<SpinnerOp@SpinnerOption>
+    background_color: [.3, .6, .7, 1]
+    background_normal: ""
+    col: [1, 1, 1, 1]
+    color: self.col
+    font_size: 12
+    canvas.before:
+        Color:
+            rgba: self.col
+        Line:
+            rectangle: (self.pos[0], self.pos[1], self.size[0], self.size[1])
+            width: 2
+
+<TextInput>
+    multiline: False
+    write_tab: False
+    font_size: 22
+
+<Label>
+    font_size: 32
